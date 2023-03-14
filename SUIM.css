@@ -1,0 +1,14 @@
+#p1
+{
+    background-color: black;
+    color: white;
+}
+#p2{background-color: blue;}
+#p3{background-color: lightgreen;}
+#p4{background-color: cyan;}
+#p5{background-color: red;}
+#p6{background-color: magenta;}
+#p7{background-color: yellow;}
+#p8{background-color: white;}
+
+p{font-weight: bold;}
