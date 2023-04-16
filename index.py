@@ -13,10 +13,39 @@ html = """<!DOCTYPE html>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function (afficher) {
+            $('input[id="files"]').on('change', (afficher) => {
+                let a = afficher.currentTarget
+                if (a.files && a.files[0]) {
+                    $(a).next('.afficher').html(a.files[0].name)
+                    let reader = new FileReader()
+                    reader.onload = (afficher) => {
+                        $('#voir').attr('src', afficher.target.result)
+                    }
+                    reader.readAsDataURL(a.files[0])
+                }
+            })
+        });
 
+        $(document).ready(function (afficher2) {
+            $('input[id="fichier"]').on('change', (afficher2) => {
+                let a = afficher2.currentTarget
+                if (a.files && a.files[0]) {
+                    $(a).next('.affiche').html(a.files[0].name)
+                    let reader = new FileReader()
+                    reader.onload = (afficher2) => {
+                        $('#voi').attr('src', afficher2.target.result)
+                    }
+                    reader.readAsDataURL(a.files[0])
+                }
+            })
+        });
+    </script>
     <style>
         .navbar{
-            background-color: #38023B;
+            background-color: #c21111;
         }
 
         td {
@@ -24,7 +53,6 @@ html = """<!DOCTYPE html>
             text-align: center;
             font-size: 16px;
             font-weight: bold;
-            color: #38023B;
         }
 
         table {
@@ -34,20 +62,64 @@ html = """<!DOCTYPE html>
 
         h1{
             font-weight: bold;
-            color: #95D9DA;
+            color: #e5e7e7;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container-fluid{
+            padding-left: 0%;
         }
 
         body{
-            background-color: #95D9DA;
+            color:#e5e7e7;
+        }
+
+        .container{
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 1em;
+        }
+
+        #vid2{
+            position: fixed; right: 0; bottom: 0;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto; z-index: -100;
+            background-size: cover;
+        }
+
+
+        .form{
+            display: flex;
+            background-color: #c21111;
+            color: #e5e7e7;
+            font-weight: bold;
+            width: 155px;
+            height: 40px;
+            border-radius: 1em;
         }
 
         .sub{
-            background-color: #38023B;
-            color: #95D9DA;
+            background-color: #c21111;
+            color: #e5e7e7;
             font-weight: bold;
-            width: 80px;
+            cursor: pointer;
+            width: 180px;
             height: 40px;
-            border-radius: 8%;
+            border-radius: 1em;
+        }
+
+        .dataset{
+            text-align: center;
+        }
+
+        .btnDataset{
+            background-color:#c21111;
+            color:#e5e7e7;
+            font-weight: bold;
+            cursor: pointer;
+            width: 275px;
+            height: 40px;
+            border-radius: 1em;
         }
 
     </style>
@@ -55,98 +127,58 @@ html = """<!DOCTYPE html>
 <body>
     <nav class="navbar">
         <div class="container-fluid">
-            <table>
-                <tr>
-                    <td class="col-md-4 offset-md-1"><img src="image/isen.png"></td>
-                    <td class="col-md-4 offset-md-2"><h1>Comprendre le milieu sous-marin</h1></td>             
-                </tr>
-            </table>
+            <img src="image/isen.png" class="isen">
+            <h1>Comprendre le milieu sous-marin</h1>
         </div>
     </nav>
+
+    <div id="vid">
+        <video autoplay muted loop id="vid2">
+            <source src="video/sous-marin-26830.mp4" type="video/mp4">
+        </video>
+    </div>
 
       <br>
 
     <div class="container">
+        <br>
+        <h3>Selectionnez le modele :</h3>
+        <br>
         <div class="row">
             <div class="col-sm-6">
-                <h3>SUIM</h3>
+                <h4>SUIM-Net RSB</h4>
                 <br>
-                <form method="post" action="suim.py" enctype="multipart/form-data">
-                    <input type="file" name="profile_pic" accept="jpg">
-                    <input type="submit" value="Predict" class="sub">
+                <form method="post" action="suimnet_rsb.py" enctype="multipart/form-data" class="form">
+                    <label for="files" class="btn" style="font-weight: bold;">Choisir une image</label>   
+                    <input id="files" type="file" name="profile_pic" style="visibility:hidden;" accept="jpg" class="afficher">  
+                    <input type="submit" value="Segmenter" class="sub">
                 </form>
+                <br>
+                <img id="voir" src="" height="190" width="275" alt="">
                 <br>
             </div>
         </div>
-
-        <hr>
-
+        <br>
         <div class="row">
             <div class="col-sm-6">
-                <h3>DeepLab</h3>
+                <h4>SUIM-Net VGG</h4>
                 <br>
-                <form method="post" action="deeplab.py" enctype="multipart/form-data">
-                    <input type="file" name="profile_pic" accept="jpg">
-                    <input type="submit" value="Predict" class="sub">
+                <form method="post" action="suimnet_vgg.py" enctype="multipart/form-data" class="form">
+                    <label for="fichier" class="btn" style="font-weight: bold;">Choisir une image</label>   
+                    <input id="fichier" type="file" name="profile_pic" style="visibility:hidden;" accept="jpg" class="affiche">  
+                    <input type="submit" value="Segmenter" class="sub">
                 </form>
+                <br>
+                <img id="voi" src="" height="190" width="275" alt="">
                 <br>
             </div>
         </div>
-
-        <hr>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <h3>PSPNet</h3>
-                <br>
-                <form method="post" action="pspnet.py" enctype="multipart/form-data">
-                    <input type="file" name="profile_pic" accept="jpg">
-                    <input type="submit" value="Predict" class="sub">
-                </form>
-                <br>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <h3>FCN8</h3>
-                <br>
-                <form method="post" action="fcn8.py" enctype="multipart/form-data">
-                    <input type="file" name="profile_pic" accept="jpg">
-                    <input type="submit" value="Predict" class="sub">
-                </form>
-                <br>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <h3>SegNet</h3>
-                <br>
-                <form method="post" action="segnet.py" enctype="multipart/form-data">
-                    <input type="file" name="profile_pic" accept="jpg">
-                    <input type="submit" value="Predict" class="sub">
-                </form>
-                <br>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <h3>UNet</h3>
-                <br>
-                <form method="post" action="unet.py" enctype="multipart/form-data">
-                    <input type="file" name="profile_pic" accept="jpg">
-                    <input type="submit" value="Predict" class="sub">
-                </form>
-                <br>
-            </div>
+        <br><br>
+        <div class="data">
+            <form method="post" action="aboutDataset.py" class="dataset">
+                <input type="submit" value="En savoir plus sur le dataset SUIM" class="btnDataset">
+            </form>
+            <br>
         </div>
     </div>
 </body>
@@ -156,6 +188,6 @@ html = """<!DOCTYPE html>
 print(html)
 
 
-#with open("index.html", "w") as file:
+#with open("templates/index.html", "w") as file:
 #   file.write(html)
 
