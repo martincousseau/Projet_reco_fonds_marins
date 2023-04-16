@@ -10,7 +10,7 @@ Comment faire fonctionner le projet ?
  - Taper la commande suivante : conda deactivate
  - Se déplacer dans le dossier du projet
  - Taper la commande suivante (création de l'environnement) : conda create --name <nom de l'environnement> --file spec-file.txt
- Un nouvel environnement devrait apparaitre dans l'interface conda
+ - Un nouvel environnement devrait apparaitre dans l'interface conda
  - Créer un dossier "models" à la racine du projet
  - Télecharger les 2 modèles suimnet ([ici](https://drive.google.com/drive/folders/1aoluekvB_CzoaqGhLutwtJptIOBasl7i?usp=sharing))
  - Placer les 2 modèles dans le dossier "models"
